@@ -4,6 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 import styles from "./styles";
 
 const CoinItem = ({marketCoin}) => {
+  const{name, current_price, } = marketCoin;
   return (
     <View style={styles.CoinItem}>
       <Image
