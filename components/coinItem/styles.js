@@ -10,10 +10,11 @@ const styles = StyleSheet.create({
       color: "white",
       marginRight: 4,
     },
+    
     CoinItem: {
       flexDirection: "row",
       borderBottomWidth: StyleSheet.hairlineWidth,
-      borderBottomColor: "gray",
+      borderBottomColor: "#282828",
       padding: 15,
     },
     CoinRate: {

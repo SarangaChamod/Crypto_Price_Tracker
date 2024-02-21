@@ -3,13 +3,40 @@ import { Text, View, Image } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import styles from "./styles";
 
-const CoinItem = ({marketCoin}) => {
-  const{name, current_price, } = marketCoin;
+const CoinItem = ({ marketCoin }) => {
+  const {
+    name,
+    image,
+    symbol,
+    market_cap,
+    current_price,
+    market_cap_rank,
+    price_change_24h,
+  } = marketCoin;
+
+  const percentageColor = price_change_24h < 0 ? "#ea3943" : "#16c784";
+
+  const nomalizeMarketCap = (marketCap) => {
+    if (market_cap > 1_000_000_000_000) {
+      return `${Math.floor(marketCap / 1_000_000_000_000)} T`;
+    }
+    if (market_cap > 1_000_000_000) {
+      return `${Math.floor(marketCap / 1_000_000_000)} B`;
+    }
+    if (market_cap > 1_000_000) {
+      return `${Math.floor(marketCap / 1_000_000)} M`;
+    }
+    if (market_cap > 1_000) {
+      return `${Math.floor(marketCap / 1_000)} K`;
+    }
+    return marketCap;
+  };
+
   return (
     <View style={styles.CoinItem}>
       <Image
         source={{
-          uri: "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1547033579",
+          uri: image,
         }}
         style={{
           height: 30,
@@ -19,23 +46,28 @@ const CoinItem = ({marketCoin}) => {
         }}
       />
       <View>
-        <Text style={styles.title}>Bitcoin</Text>
+        <Text style={styles.title}>{name}</Text>
         <View style={styles.CoinRate}>
           <View style={styles.rankNoCover}>
-            <Text style={styles.rankNo}>1</Text>
+            <Text style={styles.rankNo}>{market_cap_rank}</Text>
           </View>
-          <Text style={styles.text}>BTC</Text>
-          <AntDesign name="caretdown" size={12} color="white" />
-          <Text style={styles.text}>1.02%</Text>
+          <Text style={styles.text}>{symbol.toUpperCase()}</Text>
+          <AntDesign
+            name={price_change_24h < 0 ? "caretdown" : "caretup"}
+            size={11}
+            color={percentageColor}
+          />
+          <Text style={{ color: percentageColor }}>
+            {price_change_24h.toFixed(3)}%
+          </Text>
         </View>
       </View>
-      <View style={{ marginLeft: "auto" }}>
-        <Text style={styles.text}>56265.09</Text>
-        <Text style={styles.text}>MCap 1.076 T</Text>
+      <View style={{ marginLeft: "auto", alignItems: "flex-end" }}>
+        <Text style={styles.rankNo}>{current_price.toFixed(2)}</Text>
+        <Text style={styles.text}>MCap {nomalizeMarketCap(market_cap)}</Text>
       </View>
     </View>
   );
 };
-
 
 export default CoinItem;
