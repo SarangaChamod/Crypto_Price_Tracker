@@ -1,9 +1,13 @@
 import React from "react";
+
 import Header from "../CoinDetailsScreen/components/header/header";
-import { View, Text } from "react-native";
+import PriceContainer from "./components/priceContainer";
+
 import coin from "../../assets/data/crypto.json";
-import styles from "./components/header/styles";
-import { AntDesign } from "@expo/vector-icons";
+
+import { View, Text } from "react-native";
+import { Dimensions } from "react-native";
+import { LineChart } from "react-native-chart-kit";
 
 const CoinDetailsScreen = () => {
   const {
@@ -16,36 +20,61 @@ const CoinDetailsScreen = () => {
       price_change_percentage_24h,
     },
   } = coin;
-  const percentageColor = price_change_percentage_24h < 0 ? "#ea3943" : "#16c784";
+
   return (
     <View style={{ paddingHorizontal: 10 }}>
       <Header image={small} symbol={symbol} marketCapRank={market_cap_rank} />
-      <View style={styles.priceContainer}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            paddingTop:10
+      <PriceContainer
+        name={name}
+        currentPrice={current_price}
+        priceChangePercentage24h={price_change_percentage_24h}
+      />
+
+      <View>
+        <LineChart
+          data={{
+            labels: ["January", "February", "March", "April", "May", "June"],
+            datasets: [
+              {
+                data: [
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                  Math.random() * 100,
+                ],
+              },
+            ],
           }}
-        >
-          <View>
-            <Text style={{ color: "white", fontSize: 15 }}>{name}</Text>
-            <Text style={{ color: "white", fontSize: 30, fontWeight: "bold" }}>
-              ${current_price.usd}
-            </Text>
-          </View>
-          <View style={{backgroundColor:percentageColor,padding: 5, borderRadius:5, flexDirection:'row',alignItems:'center'}}>
-          <AntDesign
-            name={price_change_percentage_24h < 0 ? "caretdown" : "caretup"}
-            size={11}
-            color={'white'}
-          />
-          <Text style={{ color: "white", fontSize: 17,fontWeight:500, paddingHorizontal:3 }}>
-            {price_change_percentage_24h.toFixed(2)}%
-          </Text>
-          </View>
-        </View>
+          width={Dimensions.get("window").width} // from react-native
+          height={220}
+          yAxisLabel="$"
+          yAxisSuffix="k"
+          yAxisInterval={1} // optional, defaults to 1
+          chartConfig={{
+            backgroundColor: "#e26a00",
+            backgroundGradientFrom: "#fb8c00",
+            backgroundGradientTo: "#ffa726",
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16,
+            },
+            propsForDots: {
+              r: "6",
+              strokeWidth: "2",
+              stroke: "#ffa726",
+            },
+          }}
+          bezier
+          style={{
+            marginVertical: 8,
+            borderRadius: 16,
+          }}
+        />
       </View>
     </View>
   );
