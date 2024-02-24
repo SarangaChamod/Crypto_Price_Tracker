@@ -21,8 +21,25 @@ const CoinDetailsScreen = () => {
     },
   } = coin;
 
+  const chartData = {
+    labels: ["January", "February", "March", "April", "May", "June"],
+    datasets: [
+      {
+        data: [
+          Math.random() * 100,
+          Math.random() * 100,
+          Math.random() * 100,
+          Math.random() * 100,
+          Math.random() * 100,
+          Math.random() * 100,
+          Math.random() * 100,
+        ],
+      },
+    ],
+  };
+
   return (
-    <View style={{ paddingHorizontal: 10 }}>
+    <View style={{ flex: 1, paddingHorizontal: 10 }}>
       <Header image={small} symbol={symbol} marketCapRank={market_cap_rank} />
       <PriceContainer
         name={name}
@@ -30,34 +47,19 @@ const CoinDetailsScreen = () => {
         priceChangePercentage24h={price_change_percentage_24h}
       />
 
-      <View>
+      <View style={{ flex: 1 }}>
         <LineChart
-          data={{
-            labels: ["January", "February", "March", "April", "May", "June"],
-            datasets: [
-              {
-                data: [
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                ],
-              },
-            ],
-          }}
-          width={Dimensions.get("window").width} // from react-native
+          data={chartData}
+          width={Dimensions.get("window").width - 20} // Adjust width as needed
           height={220}
           yAxisLabel="$"
           yAxisSuffix="k"
-          yAxisInterval={1} // optional, defaults to 1
+          yAxisInterval={1}
           chartConfig={{
             backgroundColor: "#e26a00",
             backgroundGradientFrom: "#fb8c00",
             backgroundGradientTo: "#ffa726",
-            decimalPlaces: 2, // optional, defaults to 2dp
+            decimalPlaces: 2,
             color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
             style: {
