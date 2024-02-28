@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 
 import Header from "../CoinDetailsScreen/components/header/header";
 import PriceContainer from "./components/priceContainer";
@@ -39,8 +39,24 @@ const CoinDetailsScreen = () => {
     ],
   };
 
+  const [coinValue, setCoinValue] = useState("1");
+  const[ usdValue, setUsdValue] = useState(current_price.usd.toString());
+
+  const changeCoinValue = (value) => {
+    setCoinValue(value);
+    const floatValue = parseFloat(value) || 0;
+    setUsdValue((floatValue * current_price.usd).toString());
+  };
+  
+  const changeUsdValue = (value) => {
+    setUsdValue(value);
+    const floatValue = parseFloat(value) || 0;
+    setCoinValue((floatValue / current_price.usd).toString());
+  };
+
+
   return (
-    <View style={{ flex: 1, paddingHorizontal: 10}}>
+    <View style={{ flex: 1, paddingHorizontal: 10 }}>
       <Header image={small} symbol={symbol} marketCapRank={market_cap_rank} />
       <PriceContainer
         name={name}
@@ -79,13 +95,23 @@ const CoinDetailsScreen = () => {
           }}
         />
         <View style={{ flexDirection: "row" }}>
-          <View style={{ flexDirection: "row", flex:1 }}>
+          <View style={{ flexDirection: "row", flex: 1 }}>
             <Text style={styles.inputLable}>{symbol.toUpperCase()}</Text>
-            <TextInput style={styles.input} />
+            <TextInput
+              style={styles.input}
+              value={coinValue}
+              keyboardType="numeric"
+              onChangeText={changeCoinValue}
+            />
           </View>
           <View style={{ flexDirection: "row" }}>
             <Text style={styles.inputLable}>USD</Text>
-            <TextInput style={styles.input} />
+            <TextInput
+              style={styles.input}
+              value={usdValue}
+              keyboardType="numeric"
+              onChangeText={changeUsdValue}
+            />
           </View>
         </View>
       </View>
