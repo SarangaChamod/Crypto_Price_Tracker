@@ -5,9 +5,10 @@ import PriceContainer from "./components/priceContainer";
 
 import coin from "../../assets/data/crypto.json";
 
-import { View, Text } from "react-native";
+import { View, Text, TextInput } from "react-native";
 import { Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
+import styles from "./styles";
 
 const CoinDetailsScreen = () => {
   const {
@@ -39,7 +40,7 @@ const CoinDetailsScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1, paddingHorizontal: 10 }}>
+    <View style={{ flex: 1, paddingHorizontal: 10}}>
       <Header image={small} symbol={symbol} marketCapRank={market_cap_rank} />
       <PriceContainer
         name={name}
@@ -77,6 +78,16 @@ const CoinDetailsScreen = () => {
             borderRadius: 16,
           }}
         />
+        <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row", flex:1 }}>
+            <Text style={styles.inputLable}>{symbol.toUpperCase()}</Text>
+            <TextInput style={styles.input} />
+          </View>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={styles.inputLable}>USD</Text>
+            <TextInput style={styles.input} />
+          </View>
+        </View>
       </View>
     </View>
   );
