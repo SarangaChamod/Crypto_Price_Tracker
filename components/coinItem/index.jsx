@@ -1,9 +1,12 @@
 import React from "react";
-import { Text, View, Image } from "react-native";
+import { Text, View, Image, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import styles from "./styles";
+import { useNavigation } from "@react-navigation/native";
 
 const CoinItem = ({ marketCoin }) => {
+  const navigation = useNavigation(); // Correct usage of useNavigation hook
+
   const {
     name,
     image,
@@ -33,7 +36,10 @@ const CoinItem = ({ marketCoin }) => {
   };
 
   return (
-    <View style={styles.CoinItem}>
+    <Pressable
+      style={styles.CoinItem}
+      onPress={() => navigation.navigate("CoinDetailsScreen")} // Using navigation object directly
+    >
       <Image
         source={{
           uri: image,
@@ -66,7 +72,7 @@ const CoinItem = ({ marketCoin }) => {
         <Text style={styles.rankNo}>{current_price.toFixed(2)}</Text>
         <Text style={styles.text}>MCap {nomalizeMarketCap(market_cap)}</Text>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
