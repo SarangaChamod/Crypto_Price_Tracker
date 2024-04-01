@@ -2,12 +2,15 @@ import React from "react";
 import { Text, View, Image, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import styles from "./styles";
+
 import { useNavigation } from "@react-navigation/native";
 
+
 const CoinItem = ({ marketCoin }) => {
-  const navigation = useNavigation(); // Correct usage of useNavigation hook
+   
 
   const {
+    id,
     name,
     image,
     symbol,
@@ -17,7 +20,11 @@ const CoinItem = ({ marketCoin }) => {
     price_change_24h,
   } = marketCoin;
 
+  const navigation = useNavigation();
   const percentageColor = price_change_24h < 0 ? "#ea3943" : "#16c784";
+
+
+
 
   const nomalizeMarketCap = (marketCap) => {
     if (market_cap > 1_000_000_000_000) {
@@ -38,7 +45,7 @@ const CoinItem = ({ marketCoin }) => {
   return (
     <Pressable
       style={styles.CoinItem}
-      onPress={() => navigation.navigate("CoinDetailsScreen")} // Using navigation object directly
+      onPress={() => navigation.navigate("CoinDetailsScreen", {coinId: id})} // Using navigation object directly
     >
       <Image
         source={{

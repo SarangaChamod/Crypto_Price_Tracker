@@ -8,6 +8,7 @@ import coin from "../../assets/data/crypto.json";
 import { View, Text, TextInput } from "react-native";
 import { Dimensions } from "react-native";
 import { LineChart } from "react-native-chart-kit";
+import { useRoute } from "@react-navigation/native";
 import styles from "./styles";
 
 const CoinDetailsScreen = () => {
@@ -41,6 +42,11 @@ const CoinDetailsScreen = () => {
 
   const [coinValue, setCoinValue] = useState("1");
   const[ usdValue, setUsdValue] = useState(current_price.usd.toString());
+
+  const route = useRoute();
+  const { params : {coinId}} = route;
+
+  console.log(coinId)
 
   const changeCoinValue = (value) => {
     setCoinValue(value);
